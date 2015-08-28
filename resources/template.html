@@ -1,0 +1,103 @@
+<html><head>
+  <script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-85361-5', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+  </head>
+  <script src="https://www.google.com/jsapi" type="text/javascript"></script>
+  <script type="text/javascript">
+    google.load("visualization", '1.1', {packages:['corechart']});
+    google.setOnLoadCallback(generateInitialChart);
+    var dataTable;
+    var columnChart;
+    var testData = STRAVA_DATA;
+    var nbrRows = testData.length/5;
+    var dataLabels = ['Löpning', 'Cykling', 'Rullskidor', 'Längdskidor', 'Simning'];
+    var chartOptions = {
+        title: 'Strava Stats',
+        animation:{duration: 500, easing: 'inAndOut'},
+        isStacked: true,
+        vAxis: {title: 'Distans (km)'},
+        chartArea: {width: '90%', height: '80%'},
+        legend: {position: 'top', alignment: 'start'}
+    }
+
+    function getBarColor(dataIndex) {
+        switch (dataIndex) {
+            case 0: return ['red', 'green', 'brown', 'orange', 'blue'];
+            case 1: return ['red'];
+            case 2: return ['green'];
+            case 3: return ['brown'];
+            case 4: return ['orange'];
+            case 5: return ['blue'];
+        }
+    }
+
+    function setupTotalView() {
+        dataTable.removeColumns(1, dataTable.getNumberOfColumns() - 1);
+        for (i=0;i<dataLabels.length;i++) {
+            dataTable.addColumn('number', dataLabels[i]);
+        }
+        for (kindIndex = 0; kindIndex < 5; kindIndex++) {
+            for (monthIndex = 0; monthIndex < nbrRows;monthIndex++) {
+                dataTable.setValue(monthIndex, 1 + kindIndex,
+                                   testData[monthIndex*5 + kindIndex]);
+            }
+        }
+    }
+
+    function setupSingleView(dataIndex) {
+        dataTable.removeColumns(1, dataTable.getNumberOfColumns() - 1);
+        dataTable.addColumn('number', dataLabels[dataIndex - 1]);
+        for (i = 0; i < nbrRows;i++) {
+            dataTable.setValue(i, 1, testData[i*5+dataIndex]);
+        }
+    }
+
+    function generateInitialChart() {
+      columnChart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+      dataTable = new google.visualization.DataTable();
+      dataTable.addColumn('string', 'Month');
+      dataTable.addRows(nbrRows);
+      // Add the months
+      months = ["Januari", "Februari", "Mars", "April", "Maj", "Juni", "Juli", "Augusti", "September", "Oktober", "November", "December"];
+      for (i = 0; i < nbrRows;i++) {
+          dataTable.setValue(i, 0, months[i]);
+      }
+      setupTotalView();
+      drawChart(0);
+    }
+
+    function showChart(dataIndex) {
+        if (dataIndex == 0) {
+            setupTotalView();
+        } else {
+            setupSingleView(dataIndex);
+        }
+        drawChart(dataIndex);
+    }
+
+    function drawChart(dataIndex) {
+        chartOptions.colors = getBarColor(dataIndex);
+        columnChart.draw(dataTable, chartOptions);
+    }
+  </script>
+  <body><center>
+    <a href="http://BASE_ADDRESS/strava2014.html">2014</a>
+    <a href="http://BASE_ADDRESS/strava2015.html">2015</a>
+  <br/>
+    <a onclick="showChart(0)" href="javascript:void(0);">Total Distans</a>
+    <a onclick="showChart(1)" href="javascript:void(0);">Löpning</a>
+    <a onclick="showChart(2)" href="javascript:void(0);">Cykling</a>
+    <a onclick="showChart(3)" href="javascript:void(0);">Rullskidor</a>
+    <a onclick="showChart(4)" href="javascript:void(0);">Längdskidor</a>
+    <a onclick="showChart(5)" href="javascript:void(0);">Simning</a>
+    <div id="chart_div" style="width: 1400; height: 600px;" />
+  </center></body>
+</html>

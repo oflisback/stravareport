@@ -1,0 +1,10 @@
+; This is the template file for stravaclj. Copy it to <project root>/config/config.clj
+; and populate the strings and id:s below with values corresponding to your app.
+
+(create-ns 'config)
+
+(intern 'config 'client-secret "")
+(intern 'config 'code "")
+(intern 'config 'app-id (int 1337))
+(intern 'config 'template "resources/template.html")
+(intern 'config 'address "www.mysite.com")
