@@ -12,17 +12,13 @@ Your system needs to have a Java 8 JRE and leiningen installed. For leiningen in
 
 Unfortunately Strava has made it really difficult to share third party Strava API based apps. To give this app a spin you have to go into http://strava.com/settings/api and add the application to obtain a client ID and client secret. With the client ID and client secret you can make a request towards strava.com to get a generated access code. See the example URL in the authorize request here http://strava.github.io/api/v3/oauth/ and observe the HTTP response which will include the code as a parameter. Copy client/config.clj.template to client/config.clj and insert your values for client secret, code and app-id.
 
-When that's done you can run the application from the project directory with:
-
-    lein run <year> <output html file>
-
 ## Usage
 
-    $ java -jar stravaclj-0.1.0-standalone.jar <year> <output-file>
+    $ lein run <year> <output html file>
 
 ## Example
 
-An example with my data can be seen here: http://www.bolland.nu/strava2015.html
+An example generated with my Strava data can be seen here: http://www.bolland.nu/strava2015.html
 
 ## License
 
