@@ -17,7 +17,7 @@
         scope (into-array AuthorisationScope [AuthorisationScope/VIEW_PRIVATE])
         after-date (java.time.LocalDateTime/of year 1 1 00 00)
         before-date (java.time.LocalDateTime/of year 12 31 23 59)
-        token (.tokenExchange auth-service config/app-id config/client-secret config/code scope)]
+        token (.tokenExchange auth-service (int config/app-id) config/client-secret config/code scope)]
     (.listAllAuthenticatedAthleteActivities (Strava. token) before-date after-date)))
 
 (defn filter-on-key-value [set-of-activity-maps key-value]
@@ -58,8 +58,6 @@
       (.write wrtr (replace-in-string (slurp config/template) [["STRAVA_DATA" (str "[" js-data-string "]")] ["BASE_ADDRESS" config/address]])))))
 
 (defn -main [& args]
-  (let [year (Integer/parseInt (first args))
-        output-file (second args)]
-    (if (= 2 (count args))
-      (fetch-activities-and-produce-html year output-file)
-      (println "Usage: lein run <year> <output file>"))))
+  (if (= 2 (count args))
+    (fetch-activities-and-produce-html (Integer/parseInt (first args)) (second args))
+    (println "Usage: lein run <year> <output file>")))

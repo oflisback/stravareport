@@ -8,11 +8,13 @@ should be easy to customize.
 
 ## Installation
 
-Have a proper clojure environment and leinigen installed.
+Your system needs to have a Java 8 JRE and leiningen installed. For leiningen installation instructions, see http://leiningen.org/#install.
 
-Also copy config.clj.template to config/config.clj and set your own values.
+Unfortunately Strava has made it really difficult to share third party Strava API based apps. To give this app a spin you have to go into http://strava.com/settings/api and add the application to obtain a client ID and client secret. With the client ID and client secret you can make a request towards strava.com to get a generated access code. See the example URL in the authorize request here http://strava.github.io/api/v3/oauth/ and observe the HTTP response which will include the code as a parameter. Copy client/config.clj.template to client/config.clj and insert your values for client secret, code and app-id.
 
-TODO: Improve.
+When that's done you can run the application from the project directory with:
+
+    lein run <year> <output html file>
 
 ## Usage
 
